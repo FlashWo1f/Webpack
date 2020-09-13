@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    // "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
-    // 这里指定 webpack  package.json 会自动去 node_modules/.bin 中寻找对应的 执行
   },
   "keywords": [],
   "author": "",
