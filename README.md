@@ -85,3 +85,40 @@ module.exports = {
   }
 }
 ```
+
+
+
+
+
+### Loaders 加载器
+
+#### 概念
+webpack 开箱即用只支持 JS 和 JSON 两种文件类型，通过 Loaders 去支持其它文
+件类型并且把它们转化成有效的模块，并且可以添加到依赖图中。
+
+`本身是一个函数，接受源文件作为参数，返回转换的结果。`
+
+而像前端生态中的 jsx  Vue template 都需要loaders去处理
+Webpack原生不支持的，loaders帮助转换支持，才能加入到依赖图中去
+
+#### 用法
+
+```js
+const path = require('path')
+module.exports = {
+  output: {
+    filename: 'bundle.js'
+  },
+  // test => 匹配规则  use => 使用的loader 名称
+  module: {
+    rules: [
+      { test: /\.txt$/, use: 'raw-loader' }
+    ]
+  }
+}
+```
+
+### Plugins 插件
+
+插件⽤于 bundle ⽂件的优化，资源管理和环境变量注⼊
+作⽤于整个构建过程
