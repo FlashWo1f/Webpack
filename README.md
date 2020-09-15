@@ -122,3 +122,81 @@ module.exports = {
 
 插件⽤于 bundle ⽂件的优化，资源管理和环境变量注⼊
 作⽤于整个构建过程
+
+可以理解：loaders没办法完成的事情 用Plugins去完成
+
+plugins 可以作用于整个构建过程
+
+HtmlWebpackPlugin 创建 html 文件去承载输出的 bundle。 不需手动添加 html
+ZipWebpackPlugin 生成zip
+
+#### 用法
+
+```js
+const path = require('path');
+module.exports = {
+  output: {
+    filename: 'bundle.js'
+  },
+  plugins: [
+    new HtmlWebpackPlugin({template: './src/index.html'})
+  ]
+};
+```
+
+### Mode
+
+Mode ⽤来指定当前的构建环境是：production、development 还是 none
+设置 mode 可以使⽤ webpack 内置的函数，默认值为 production
+
+Mode 内置函数功能
+
+development => process.env.NODE_ENV = development
+开启 NamedChunksPlugin & NamedModulesPlugin
+
+production => process.env.NODE_ENV = production
+开启 FlagDependencyUsagePlugin & FlagIncludedChunksPlugin, ...TerserPlugin
+
+
+
+## 应用
+
+### 解析ES6
+
+使⽤ babel-loader  babel的配置⽂件是：.babelrc
+
+```JS
+const path = require('path');
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
++ module: {
++   rules: [
++   {
++     test: /\.js$/,
++     use: 'babel-loader'
++   }
++  ]
++ }
+};
+```
+
+匹配.js 文件 使用 babel-loader   而 babel-loader 依赖 babel
+
+其中两块重要的地方 presets + plugins
+可以把 plugins 的每一项对应一个功能
+presets 是一系列  babel plugins 的集合
+`yarn add @babel/core @babel/preset-env babel-loader -D`
+```js
+{
+"presets": [
+  + "@babel/preset-env" // =》 增加 ES6 的 babel preset 配置
+ ],
+"plugins": [
+  "@babel/proposal-class-properties"
+ ] 
+}
+```
