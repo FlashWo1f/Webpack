@@ -205,4 +205,5 @@ presets 是一系列  babel plugins 的集合
 
 ### 解析图片、文件
 
-file-loader
+file-loader 可以解析 图片和字体文件
+url-loader 也可以解析 不同的是 可以设置较⼩资源⾃动 base64
