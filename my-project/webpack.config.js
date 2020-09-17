@@ -31,6 +31,10 @@ module.exports = {
         test: /.less$/,
         // less-loader ⽤于将 less 转换成 css, 依然顺序是从右到左
         use: ['style-loader', 'css-loader', 'less-loader']
+      },
+      {
+        test: /.(jpg|png|jpeg|gif)$/,
+        use: 'file-loader'
       }
     ]
   }

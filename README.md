@@ -200,3 +200,9 @@ presets 是一系列  babel plugins 的集合
  ] 
 }
 ```
+
+### 解析css less
+
+### 解析图片、文件
+
+file-loader
