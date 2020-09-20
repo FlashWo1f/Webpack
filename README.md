@@ -258,3 +258,71 @@ WDM 将 webpack 输出的⽂件传输给服务器
 适⽤于灵活的定制场景
 
 <img src='./images/hot-update.png' />
+
+### 文件指纹
+
+什么是⽂件指纹？
+打包后输出的⽂件名的后缀  可以用来做文件管理
+下面的 51727db 就是文件指纹 修改过后的文件的指纹会修改，所以会被替换。
+未修改的文件的指纹不变，利用浏览器缓存机制加速访问
+```html
+<script src='//11.url.cn/now//index_51727db.js'></script>
+```
+
+#### 文件指纹如何生成
+
+Hash：和整个项⽬的构建相关，只要项⽬⽂件有修改，整个项⽬构建的 hash 值就会更改
+
+Chunkhash：和 webpack 打包的 chunk 有关，不同的 entry 会⽣成不同的 chunkhash 值  ( js文件 )
+
+Contenthash：根据⽂件内容来定义 hash ，⽂件内容不变，则 contenthash 不变   (其他：eg: css)
+
+
+设置 output 的 filename，使⽤ [chunkhash]
+JS 的⽂件指纹设置
+```js
+module.exports = {
+  entry: {
+    app: './src/app.js',
+    search: './src/search.js'
+  },
+  output: {
+    filename: '[name][chunkhash:8].js',
+    path: __dirname + '/dist'
+  }
+};
+```
+CSS 的⽂件指纹设置
+设置 MiniCssExtractPlugin 的 filename，
+使⽤ [contenthash]
+因为平时项目中会用 css-loader style-loader
+css-loader ⽤于加载 .css ⽂件，并且转换成 commonjs 对象
+style-loader 将样式通过 <style> 标签插⼊到 head 中
+所以这边  ` 使用 MiniCssExtractPlugin 把 css 文件独立出来 `
+```js
+module.exports = {
+  entry: {
+    app: './src/app.js',
+    search: './src/search.js'
+  },
+  output: {
+    filename: '[name][chunkhash:8].js',
+    path: __dirname + '/dist'
+  },
+  plugins: [
+    new MiniCssExtractPlugin({ 
+      filename: `[name][contenthash:8].css`
+    });
+  ]
+};
+```
+
+| 占位符名称 | 含义 |
+| :---: | :---: |
+|[ext]|资源后缀名|
+|[name]|文件名称|
+|[path]|文件相对路径|
+|[folder]|文件所在文件夹|
+|[contenthash]|文件内容的hash 默认md5生成|
+|[hash]|文件内容的hash 默认md5生成（这跟之前js文件指纹的hash不一样，这里也是文件内容hash）|
+|[emoji]|一个随机的指代文件内容的emoji|
