@@ -362,3 +362,56 @@ module.exports = {
   ]
 };
 ```
+
+### html 压缩
+
+html-webpack-plugin
+
+```js
+new HtmlWebpackPlugin({
+  // html对应模板所在的位置 可以使用ejs语法
+  template: path.join(__dirname, 'src/search.html'),
+  // 打包出来的文件名称
+  filename: 'search.html', 
+  // 要使用那些 chunk
+  chunks: ['search'],
+  // 把chunk自动注入html
+  inject: true,
+  minify: {
+    html5: true,
+    collapseWhitespace: true,
+    preserveLineBreaks: false,
+    minifyCSS: true,
+    minifyJS: true,
+    removeComments: false
+  }
+})
+```
+
+## Webpack 进阶用法
+
+### 自动清理构建目录产物
+
+1. 使用 npm scripts
+rm -rf ./dist && webpack
+2. Plugin ⾃动清理构建⽬录
+
+使⽤ clean-webpack-plugin
+默认会删除 output 指定的输出⽬录
+
+```js
+// 现在需要结构出来这个构造函数。之前是默认导出。现在改了，需要注意
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+module.exports = {
+  entry: {
+    app: './src/app.js',
+    search: './src/search.js'
+  },
+  output: {
+    filename: '[name][chunkhash:8].js',
+    path: __dirname + '/dist'
+  },
+  plugins: [
+    + new CleanWebpackPlugin()
+  };
+```
