@@ -1,9 +1,1 @@
-@font-face {
-  font-family: 'SourceHanSerifSC-Heavy';
-}
-.search-text {
-  font-size: 20px;
-  color: #ff0000;
-  font-family: 'SourceHanSerifSC-Heavy';
-}
-
+@font-face{font-family:"SourceHanSerifSC-Heavy"}.search-text{font-size:20px;color:red;font-family:"SourceHanSerifSC-Heavy"}

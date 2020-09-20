@@ -326,3 +326,39 @@ module.exports = {
 |[contenthash]|文件内容的hash 默认md5生成|
 |[hash]|文件内容的hash 默认md5生成（这跟之前js文件指纹的hash不一样，这里也是文件内容hash）|
 |[emoji]|一个随机的指代文件内容的emoji|
+
+具体例子见 webpack.prod.js   commit => 2af89cd191fc96af31cef57ea5f335af51da8781
+
+### 代码压缩
+
+html压缩
+css 压缩
+js 压缩
+
+### js 压缩
+
+内置了 uglifyjs-webpack-plugin
+
+### css 压缩
+
+使⽤ optimize-css-assets-webpack-plugin
+同时使⽤ cssnano  预处理器
+
+```js
+module.exports = {
+  entry: {
+    app: './src/app.js',
+    search: './src/search.js'
+  },
+  output: {
+    filename: '[name][chunkhash:8].js',
+    path: __dirname + '/dist'
+  },
+  plugins: [
+    new OptimizeCSSAssetsPlugin({
+      assetNameRegExp: /\.css$/g,
+      cssProcessor: require('cssnano')
+    })
+  ]
+};
+```
