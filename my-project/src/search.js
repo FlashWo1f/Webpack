@@ -6,7 +6,7 @@ class Search extends React.Component {
   render() {
     return <div className='search-text'>
       <img src={logo} />
-      Search React Dom</div>
+      Search 内容？？</div>
   }
 }
 

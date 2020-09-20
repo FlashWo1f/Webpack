@@ -207,3 +207,54 @@ presets 是一系列  babel plugins 的集合
 
 file-loader 可以解析 图片和字体文件
 url-loader 也可以解析 不同的是 可以设置较⼩资源⾃动 base64
+
+
+
+
+### 文件监听
+
+--watch 参数
+或者 config.js => watch: true
+
+#### ⽂件监听的原理分析
+
+轮询判断⽂件的最后编辑时间是否变化
+某个⽂件发⽣了变化，并不会⽴刻告诉监听者，⽽是先缓存起来，等 aggregateTimeout
+
+```js
+module.export = {
+  //默认 false，也就是不开启
+  watch: true,
+  //只有开启监听模式时，watchOptions才有意义
+  wathcOptions: {
+    //默认为空，不监听的文件或者文件夹，支持正则匹配
+    ignored: /node_modules/,
+    //监听到变化发生后会等300ms再去执行，默认300ms
+    aggregateTimeout: 300,
+    //判断文件是否发生变化是通过不停询问系统指定文件有没有变化实现的，默认每秒问1000次
+    poll: 1000
+  } 
+}
+```
+
+> 但是以上都是需要手动刷新浏览器的。下面介绍热更新
+
+### 热更新
+
+#### 使⽤ webpack-dev-server
+
+webpack-dev-serve + HotModuleReplacementPlugin
+
+WDS 不刷新浏览器
+WDS 不输出⽂件，⽽是放在内存中
+
+#### 使⽤ webpack-dev-middleware
+
+日常开发用得比较多
+
+WDM 将 webpack 输出的⽂件传输给服务器
+也就是我们的node 起的本地服务 类似localhost:8080
+浏览器会和服务构建一个websocket服务，每当我们改变了代码，都会有个hotupdate文件，让浏览器更新。
+适⽤于灵活的定制场景
+
+<img src='./images/hot-update.png' />
