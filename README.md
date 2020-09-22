@@ -507,3 +507,18 @@ W3C 对 rem 的定义： font-size of the root element
 yarn add px2rem-loader -D
 yarn add lib-flexible -S
 
+### 资源内联
+
+代码层⾯：
+· ⻚⾯框架的初始化脚本
+· 上报相关打点
+· css 内联避免⻚⾯闪动
+请求层⾯：减少 HTTP ⽹络请求数
+· ⼩图⽚或者字体内联 (url-loader)
+
+raw-loader 内联 html
+<script>${require(' raw-loader!babel-loader!. /meta.html')}</script>
+raw-loader 内联 JS
+<script>${require('raw-loader!babel-loader!../node_modules/lib-flexible')}</script>
+
+
