@@ -498,3 +498,12 @@ use: [
   "last 3 iOS versions"
 ],
 ```
+### px => rem
+
+W3C 对 rem 的定义： font-size of the root element
+· rem 是相对单位
+· px 是绝对单位
+
+yarn add px2rem-loader -D
+yarn add lib-flexible -S
+

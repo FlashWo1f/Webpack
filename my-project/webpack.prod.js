@@ -40,18 +40,17 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           'css-loader', 
           'postcss-loader',
+          {
+            loader: 'px2rem-loader',
+            options: {
+              remUnit: 75,
+              // 1rem = 75px
+              // px 转 rem 结果小数点后面的位数
+              remPrecision: 8
+            }
+          },
+          // less-loader 顺序必须放在前几个loader的后面 不然报错
           'less-loader',
-          // {
-          //   loader: 'postcss-loader',
-          //   options: {
-          //     plugins: () => [
-          //       require('autoprefixer')({
-          //         // 1. 浏览器最近两个版本 2. 用户使用率 > 1% 3. ios 7 以上
-          //         browsers: ['last 2 version', '>1%', 'ios 7']
-          //       })
-          //     ]
-          //   }
-          // },
         ]
       },
       {
