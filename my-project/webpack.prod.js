@@ -39,7 +39,19 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader', 
-          'less-loader'
+          'postcss-loader',
+          'less-loader',
+          // {
+          //   loader: 'postcss-loader',
+          //   options: {
+          //     plugins: () => [
+          //       require('autoprefixer')({
+          //         // 1. 浏览器最近两个版本 2. 用户使用率 > 1% 3. ios 7 以上
+          //         browsers: ['last 2 version', '>1%', 'ios 7']
+          //       })
+          //     ]
+          //   }
+          // },
         ]
       },
       {

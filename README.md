@@ -415,3 +415,86 @@ module.exports = {
     + new CleanWebpackPlugin()
   };
 ```
+### postcss
+
+css3 各大浏览器兼容
+
+```css
+.box {
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+}
+```
+autoprefixer 插件 
+yarn add postcss-loader autoprefixer -D
+
+```js
+module.exports = {
+  module: {
+  rules: [
+    {
+      test: /\.less$/,
+      use: [
+        'style-loader',
+        'css-loader',
+        'less-loader',
+      ]
+    + {
+        + loader: 'postcss-loader',
+        + options: {
+          + plugins: () => [
+            + require('autoprefixer')({
+              + browsers: ["last 2 version", "> 1%", "iOS 7"]
+            + })
+          + ]
+        + }
+    + }
+    ]}
+  ]}
+};
+```
+
+
+这里的话并没有跟老师同步。
+
+1. 在根目录下创建 postcss.config.js
+```js
+module.exports = {
+  plugins: [
+      require('autoprefixer')
+  ]
+};
+```
+2. 在webpack.prod.js中
+```js
+use: [
+  MiniCssExtractPlugin.loader,
+  'css-loader', 
+  'postcss-loader',
+  'less-loader',
+  // {
+  //   loader: 'postcss-loader',
+  //   options: {
+  //     plugins: () => [
+  //       require('autoprefixer')({
+  //         // 1. 浏览器最近两个版本 2. 用户使用率 > 1% 3. ios 7 以上
+  //         browsers: ['last 2 version', '>1%', 'ios 7']
+  //       })
+  //     ]
+  //   }
+  // },
+]
+```
+3. package.json 中添加
+```json
+"browserslist": [
+  "defaults",
+  "not ie < 8",
+  "last 2 versions",
+  "> 1%",
+  "iOS 7",
+  "last 3 iOS versions"
+],
+```
