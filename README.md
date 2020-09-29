@@ -761,6 +761,34 @@ module.exports = {
 并不像 require 一样可以根据条件来引入模块。
 代码擦除： uglify 阶段删除⽆⽤代码
 
-本质：就是对代码的一个静态的分析，不能等到编译阶段再做这个操作，所以它是依赖 ES6 模块的。
-经过这么一个静态的分析，给没有用到的代码进行一个注释，在 uglify 阶段把无用代码删除。
+本质：`就是对代码的一个静态的分析，不能等到编译阶段再做这个操作，所以它是依赖 ES6 模块的。经过这么一个静态的分析，给没有用到的代码进行一个注释，在 uglify 阶段把无用代码删除。`
+
+
+### scope hoisting
+
+webpack mode 为 production 默认开启  ModuleConcatenationPlugin
+必须是 ES6 语法，CJS 不⽀持 
+现象：构建后的代码存在⼤量闭包代码
+
+会导致什么问题？
+1. ⼤量作⽤域包裹代码，导致体积增⼤（模块越多越明显）
+2. 运⾏代码时创建的函数作⽤域变多，内存开销变⼤
+
+```js
+import { helloworld } from './helloworld'
+import '../../common'
+document.write(helloworld())
+```
+
+转换为
+
+模块初始化函数
+```js
+(function (module, __webpack_exports__, __webpack_require__) {
+  'use strict'
+  __webpack_require__.r(__webpack_exports__)
+})
+```
+· 被 webpack 转换后的模块会带上⼀层包裹
+· import 会被转换成 __webpack_require
 
