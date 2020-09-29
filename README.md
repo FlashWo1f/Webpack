@@ -512,13 +512,44 @@ yarn add lib-flexible -S
 代码层⾯：
 · ⻚⾯框架的初始化脚本
 · 上报相关打点
-· css 内联避免⻚⾯闪动
+· `css 内联避免⻚⾯闪动` html 同首页的 css 一同加载
 请求层⾯：减少 HTTP ⽹络请求数
 · ⼩图⽚或者字体内联 (url-loader)
 
+
+
 raw-loader 内联 html
+详见search.html
+yarn add raw-loader@0.5.1 -D
+使用场景：
+比如我们在开发移动端的时候，需要一大堆 meta 信息，这个时候我们就能将这些拆分出来 meta.html。然后内联
 <script>${require(' raw-loader!babel-loader!. /meta.html')}</script>
-raw-loader 内联 JS
+
+raw-loader 内联 JS  babel-loader 进行一个转换
 <script>${require('raw-loader!babel-loader!../node_modules/lib-flexible')}</script>
 
-
+#### css 内联
+方案1. 用 style-loader
+```js
+module.exports = {
+  module: {
+    rules: [
+    {
+      test: /\.scss$/,
+      use: [
+        {
+          loader: 'style-loader',
+          options: {
+            insertAt: 'top', // 样式插入到 <head>
+            singleton: true, //将所有的style标签合并成一个
+          }
+        },
+        "css-loader",
+        "sass-loader"
+      ],
+    },
+    ]
+  },
+};
+```
+方案2. html-inline-css-webpack-plugin
