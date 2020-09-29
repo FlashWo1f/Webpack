@@ -39,7 +39,6 @@ const setMPA = () => {
   }
 }
 const { entry, htmlWebpackPlugins } = setMPA();
-console.log("entryu", entry, htmlWebpackPlugins)
 
 module.exports = {
   entry: entry,

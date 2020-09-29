@@ -580,4 +580,61 @@ module.exports = {
   entry: glob.sync(path.join(__dirname, './src/*/index.js'))
 }
 ```
+```js
+const setMPA = () => {
+  const entry = {}
+  const htmlWebpackPlugins = []
+  const entryFiles = glob.sync(path.join(__dirname, './src/*/index.js'))
+  Object.keys(entryFiles).map(
+    index => {
+      const entryFile = entryFiles[index]
+      const match = entryFile.match(/src\/(.*)\/index\.js/)
+      const pageName = match && match[1]
+      entry[pageName] = entryFile
+      htmlWebpackPlugins.push(new HtmlWebpackPlugin({
+        template: path.join(__dirname, `src/${pageName}/index.html`),
+        filename: `${pageName}.html`,
+        chunks: [pageName],
+        inject: true,
+        minify: {
+          html5: true,
+          collapseWhitespace: true,
+          preserveLineBreaks: false,
+          minifyCSS: true,
+          minifyJS: true,
+          removeComments: false
+        }
+      }))
+    })
 
+  return {
+    entry,
+    htmlWebpackPlugins
+  }
+}
+// 再将 entry 和 htmlWebpackPlugins 分别放入 entry 和 plugins
+// 这样，之后再次添加页面就可以不用配置 Webpack 了
+```
+
+### Source Map
+
+作⽤：通过 source map 定位到源代码
+source map科普⽂：`http://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html`
+
+开发环境开启，线上环境关闭
+· 线上排查问题的时候可以将 sourcemap 上传到错误监控系统\
+
+
+1. eval: 使⽤eval包裹模块代码
+2. source map: 产⽣.map⽂件
+3. cheap: 不包含列信息
+4. inline: 将.map作为DataURI嵌⼊，不单独⽣成.map⽂件 内联到JS 文件中
+5. module: 包含loader的sourcemap
+
+另外有一张  `source map 类型表` 在 ./images/source-map.png
+
+```js
+eval("\n\nif (false) {} else {\n  module.exports = __webpack_require__(4);\n}\n\n//# sourceURL=webpack:///./node_modules/react/index.js?")
+```
+
+这一小节就直接带过吧~
