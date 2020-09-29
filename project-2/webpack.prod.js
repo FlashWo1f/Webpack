@@ -7,6 +7,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
+
 const setMPA = () => {
   const entry = {}
   const htmlWebpackPlugins = []
@@ -20,7 +22,8 @@ const setMPA = () => {
       htmlWebpackPlugins.push(new HtmlWebpackPlugin({
         template: path.join(__dirname, `src/${pageName}/index.html`),
         filename: `${pageName}.html`,
-        chunks: [pageName],
+        // 好像下面这个加不加 vendors 都无所谓
+        chunks: ['vendors', pageName],
         inject: true,
         minify: {
           html5: true,
@@ -47,6 +50,29 @@ module.exports = {
     filename: '[name]_[chunkhash:8].js'
   },
   mode: 'production',
+  optimization: {
+    // splitChunks: {
+    //   cacheGroups: {
+    //     commons: {
+    //       test: /(react|react-dom)/,
+    //       name: 'vendors',
+    //       chunks: 'all'
+    //     }
+    //   }
+    // }
+    splitChunks: {
+      // 单位 bytes
+      minSize: 0,
+      cacheGroups: {
+        // 公共模块拆分
+        commons: {
+          name: 'commons',
+          chunks: 'all',
+          minChunks: 2
+        } 
+      } 
+    } 
+  },
   module: {
     rules: [
       {
@@ -98,6 +124,21 @@ module.exports = {
       assetNameRegExp: /\.css$/g,
       cssProcessor: require('cssnano')
     }),
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    // new HtmlWebpackExternalsPlugin({
+    //   externals: [
+    //     {
+    //       module: 'react',
+    //       // 到 now 直播上扒下来的
+    //       entry: 'https://now8.gtimg.com/now/lib/16.8.6/react.min.js',
+    //       global: 'React'
+    //     },
+    //     {
+    //       module: 'react-dom',
+    //       entry: 'https://now8.gtimg.com/now/lib/16.8.6/react-dom.min.js',
+    //       global: 'ReactDOM'
+    //     },
+    //   ]
+    // })
   ].concat(htmlWebpackPlugins)
 }

@@ -638,3 +638,104 @@ eval("\n\nif (false) {} else {\n  module.exports = __webpack_require__(4);\n}\n\
 ```
 
 这一小节就直接带过吧~
+
+
+### 公共脚本分离 （react react-dom vue vue-router...）
+
+思路：将 react、react-dom 基础包通过 cdn 引⼊，不打⼊ bundle 中
+·⽅法1：使⽤ html-webpack-externals-plugin
+
+```js
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
+
+module.exports = {
+  plugin: [
+    new HtmlWebpackExternalsPlugin({
+      externals: [
+        {
+          module: 'react',
+          // 到 now 直播上扒下来的
+          entry: 'https://now8.gtimg.com/now/lib/16.8.6/react.min.js',
+          global: 'React'
+        },
+        {
+          module: 'react-dom',
+          entry: 'https://now8.gtimg.com/now/lib/16.8.6/react-dom.min.js',
+          global: 'ReactDOM'
+        },
+      ]
+    })
+  ]
+}
+```
+
+方法2  利⽤ SplitChunksPlugin 进⾏公共脚本分离
+是 Webpack4 内置强大的 插件 替代CommonsChunkPlugin插件
+
+
+chunks 参数说明
+async 异步引⼊的库进⾏分离(默认)  => 比如说 ES6 中的 import  import React from 'react'
+initial 同步引⼊的库进⾏分离  => 同步 import ?
+all 所有引⼊的库进⾏分离(推荐)
+```js
+module.exports = {
+  optimization: {
+    splitChunks: {
+      chunks: 'async',
+      // 单位: 字节
+      minSize: 30000,
+      maxSize: 0,
+      minChunks: 1,
+      // 浏览器同时请求的数量
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      name: true,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        }
+      }
+    }
+  }
+};
+```
+
+```js
+module.exports = {
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /(react|react-dom)/,
+          name: 'vendors',
+          chunks: 'all'
+        } 
+      } 
+    } 
+  }
+};
+```
+
+`利⽤ SplitChunksPlugin 分离⻚⾯公共⽂件`
+
+```js
+// minChunks: 设置最⼩引⽤次数为2次
+// minuSize: 分离的包体积的⼤⼩
+module.exports = {
+  optimization: {
+    splitChunks: {
+      minSize: 0,
+      cacheGroups: {
+        commons: {
+          name: 'commons',
+          chunks: 'all',
+          minChunks: 2
+        } 
+      } 
+    } 
+  }
+}
+```
+
