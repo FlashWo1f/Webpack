@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import './search.less'
 import logo from './images/logo.png'
 import { common } from '../../../common'
+import { a } from './tree-sharking'
 class Search extends React.Component {
   render() {
     return (
@@ -10,6 +11,7 @@ class Search extends React.Component {
         <img src={logo} />
         Search 内容？？改变一下 让 contenthash改变
         { common() }
+        <div>{a()}</div>
       </div>
     )
   }
