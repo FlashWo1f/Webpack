@@ -519,7 +519,7 @@ yarn add lib-flexible -S
 
 
 raw-loader 内联 html
-详见search.html
+详见search.html hash = 62e4c604516266f36d65e832097d950eab22c2ab
 yarn add raw-loader@0.5.1 -D
 使用场景：
 比如我们在开发移动端的时候，需要一大堆 meta 信息，这个时候我们就能将这些拆分出来 meta.html。然后内联
@@ -553,3 +553,31 @@ module.exports = {
 };
 ```
 方案2. html-inline-css-webpack-plugin
+
+# ------     分界线 从这开始的demo 在 project-2 中演示     -------
+
+## 多页面打包
+
+每⼀次⻚⾯跳转的时候，后台服务器都会给返回⼀个新的 html ⽂档，
+这种类型的⽹站也就是多⻚⽹站，也叫做多⻚应⽤
+
+优势: 
+1. 多个页面是解耦的。
+2. 对SEO比较友好。
+
+```js
+module.exports = {
+  entry: {
+    index: './src/index/index.js',
+    search: './src/search/index.js'
+  }
+};
+```
+
+利⽤ glob.sync  `yarn add glob -D`
+```js
+{
+  entry: glob.sync(path.join(__dirname, './src/*/index.js'))
+}
+```
+
