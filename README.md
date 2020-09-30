@@ -827,3 +827,44 @@ ES6：动态 import（⽬前还没有原⽣⽀持，需要 babel 转换）
 通过 plugins 动态引入模块，该模块会被分离出去，当需要该模块的时候再请求，达到一个懒加载的效果。
 
 
+
+### ESLint 规范
+
+ESLint => eslint-config-airbnb
+
+#### 制定团队的 ESLint 规范
+
+1. 不重复造轮⼦，基于 eslint:recommend 配置并改进
+2. 能够帮助发现代码错误的规则，全部开启
+3. 帮助保持团队的代码⻛格统⼀，⽽不是限制开发体验 
+
+#### ESLint 如何执⾏落地？
+
+1. 和 CI/CD 系统集成
+2. 和 webpack 集成
+
+
+本地开发阶段增加 precommit 钩⼦
+
+安装 husky (antd pro 中就内置了这么一个东西)
+npm install husky --save-dev
+
+--no-verify 可跳检查
+
+webpack 与 ESLint 集成
+
+```js
+module.exports = {
+  module: {
+    rules: [{
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: [
+        "babel-loader", 
+      + "eslint-loader"
+      ]
+    }]
+  }
+};
+```
+
