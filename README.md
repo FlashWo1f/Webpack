@@ -792,3 +792,38 @@ document.write(helloworld())
 · 被 webpack 转换后的模块会带上⼀层包裹
 · import 会被转换成 __webpack_require
 
+
+### 代码分割  chunks
+
+对于大的 Web 应用来说，将所有的代码都放在一个文件中显然是不够有效的，特别是当你的某些代码块是在某些特俗的时候才会被用到。
+Webpack 有一个功能就是将你的代码库分割成 `chunks(语块)`， 当代码运行到需要他们的时候在进行加载。
+
+适用场景：
+
+1. 抽离相同代码到一个共享块
+2. 脚本懒加载，使得初始下载的代码更小
+
+#### 懒加载 JS 脚本的⽅式
+
+CommonJS：require.ensure
+ES6：动态 import（⽬前还没有原⽣⽀持，需要 babel 转换）
+
+如何使⽤动态 import?
+安装 babel 插件  即可不限制 import 语法在模块的顶端，也可以在 if else 语块中
+`npm install @babel/plugin-syntax-dynamic-import --save-dev`
+实践过程中报错，需要安装
+`yarn add @babel/plugin-proposal-class-properties -D`
+然后把 `@babel/plugin-proposal-class-properties` 同样放到 .babelrc 的 plugins 中即可
+ES6：动态 import（⽬前还没有原⽣⽀持，需要 babel 转换）
+```js
+{
+  "plugins": ["@babel/plugin-syntax-dynamic-import"],
+  ...
+}
+```
+
+#### 代码分割的效果
+
+通过 plugins 动态引入模块，该模块会被分离出去，当需要该模块的时候再请求，达到一个懒加载的效果。
+
+
