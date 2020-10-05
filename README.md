@@ -879,3 +879,47 @@ webpack 除了可以⽤来打包应⽤，也可以⽤来打包 js 库
 - 需要打包压缩版和⾮压缩版本
 - ⽀持 AMD/CJS/ESM 模块引⼊
 
+### SSR打包
+
+服务端渲染 (SSR) 是什么？
+
+渲染: HTML + CSS + JS + Data -> 渲染后的 HTML
+
+服务端：所有模板等资源都存储在服务端
+内⽹机器拉取数据更快
+⼀个 HTML 返回所有数据
+
+|  | CSR | SSR |
+| :---: | :---: | :---: | 
+| 请求 |多个请求(HTML，数据等)|1个请求| 
+| 加载过程 |HTML & 数据串行加载|1个请求返回HTML & 数据| 
+| 渲染 |前端渲染|服务端渲染| 
+| 可交互 |图片等静态资源加载完成，JS逻辑执行完成可交互| 图片等静态资源加载完成，JS逻辑执行完成可交互|
+
+`核心：SSR的核心是减少请求，减少白屏时间，对于SEO友好`
+
+实践在 project-2 => webpack.ssr.js
+
+图片加载问题
+
+```js
+// 引入
+const logo = require('./images/logo.png')
+// 使用
+<img src={logo} />
+// webpack.ssr.js
+{
+  test: /.(jpg|png|jpeg|gif)$/,
+  use: [
+    {
+      loader: 'file-loader',
+      options: {
+        // 不加的话  /search 中引用图片错误  =>  <img src="[object Module]"
+      +  esModule: false,
+        name: '[name]_[hash:8].[ext]'
+      }
+    }
+  ]
+},
+```
+
