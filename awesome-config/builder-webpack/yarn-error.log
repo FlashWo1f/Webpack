@@ -1,0 +1,53 @@
+Arguments: 
+  D:\NodeJS\node.exe C:\Users\libin\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add wepback-merge -D
+
+PATH: 
+  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;D:\NodeJS\;D:\Git\cmd;C:\Program Files\wkhtmltopdf\bin;C:\Users\libin\AppData\Local\Yarn\bin;D:\mysql\mysql-5.6.47-winx64\bin;C:\Program Files\MySQL\MySQL Server 5.7\bin;C:\Users\libin\AppData\Roaming\npm\node_modules\webpack\bin\webpack.js;C:\Users\libin\AppData\Local\Microsoft\WindowsApps;D:\Microsoft VS Code\bin;C:\Users\libin\AppData\Roaming\npm;D:\mysql\mysql-5.6.47-winx64\bin;C:\Program Files\MySQL\MySQL Server 5.7\bin;D:\Microsoft VS Code;
+
+Yarn version: 
+  1.21.1
+
+Node version: 
+  12.14.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.npm.taobao.org/wepback-merge: Not found
+      at Request.params.callback [as _callback] (C:\Users\libin\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66947:18)
+      at Request.self.callback (C:\Users\libin\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140665:22)
+      at Request.emit (events.js:210:5)
+      at Request.<anonymous> (C:\Users\libin\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141637:10)
+      at Request.emit (events.js:210:5)
+      at IncomingMessage.<anonymous> (C:\Users\libin\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141559:12)
+      at Object.onceWrapper (events.js:299:28)
+      at IncomingMessage.emit (events.js:215:7)
+      at endReadableNT (_stream_readable.js:1184:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
+
+npm manifest: 
+  {
+    "name": "builder-webpack",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "directories": {
+      "lib": "lib"
+    },
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+      "webpack-merge": "^5.1.4"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

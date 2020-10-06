@@ -971,3 +971,31 @@ module.exports = {
 在 CI/CD 的 pipline 或者发布系统需要知道当前构建状态
 每次构建完成后输⼊ echo $? 获取错误码 (输出0表示成功，输出其他则有错误)
 
+## awesome-config 项目 对应 可维护的webpack构建配置
+
+### 构建配置包设计
+
+`构建配置抽离成 npm 包的意义`
+通用性
+1. 业务开发者无需关注构建配置
+2. 统一团队构建脚本
+可维护性
+1. 构建配置合理的拆分
+2. README 文档、ChangeLog 文档等
+质量
+1. 冒烟测试、单元测试、测试覆盖率
+2. 持续集成
+
+`通过多个配置文件管理不同环境的 webpack 配置`
+基础配置：webpack.base.js （便于配置的扩展）
+开发环境：webpack.dev.js
+生产环境：webpack.prod.js
+SSR环境：webpack.ssr.js
+
+通过 `webpack-merge` 组合配置
+```js
+const merge = require("webpack-merge")
+module.exports = merge(baseConfig, devConfig)
+```
+
+
