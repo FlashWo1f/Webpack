@@ -923,3 +923,15 @@ const logo = require('./images/logo.png')
 },
 ```
 
+
+SSR在技术上还是存在很多适配问题，以及开发成本问题
+比如React中点击事件，CSS文件的加载在本次例子中暂未实现。
+
+CSS 实现，使用打包后的search/index.html的模板 而不是写死的模板。
+用
+```js
+const template = fs.readFileSync(path.join(__dirname, '../dist/search.html'), 'utf-8')
+// 这个<!-- HTML_PLACEHOLDER -->是约定俗成的
+const renderMarkUp = (str) => template.replace('<!-- HTML_PLACEHOLDER -->', str)
+```
+实现引入css
