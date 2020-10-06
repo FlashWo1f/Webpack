@@ -935,3 +935,33 @@ const template = fs.readFileSync(path.join(__dirname, '../dist/search.html'), 'u
 const renderMarkUp = (str) => template.replace('<!-- HTML_PLACEHOLDER -->', str)
 ```
 实现引入css
+
+### 优化构建时命令行的显示信息
+
+stats: 'errors-only'
+
+friendly-errors-webpack-plugin
+
+Vue好像也是用的这个 plugin
+
+很简洁
+success: 构建成功的⽇志提示
+warning: 构建警告的⽇志提示
+error: 构建报错的⽇志提示
+
+```js
+module.exports = {
+  entry: {
+    app: './src/app.js',
+    search: './src/search.js'
+  },
+  output: {
+    filename: '[name][chunkhash:8].js',
+    path: __dirname + '/dist'
+  },
+  plugins: [
+  + new FriendlyErrorsWebpackPlugin()
+  ],
+  + stats: 'errors-only'
+};
+```

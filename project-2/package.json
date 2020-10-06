@@ -49,6 +49,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
+    "friendly-errors-webpack-plugin": "^1.7.0",
     "lib-flexible": "^0.3.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
