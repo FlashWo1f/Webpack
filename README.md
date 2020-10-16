@@ -950,6 +950,9 @@ warning: 构建警告的⽇志提示
 error: 构建报错的⽇志提示
 
 ```js
+// 获取本机网络信息
+const { WLAN } = require('os').networkInterfaces()
+const port = 8000
 module.exports = {
   entry: {
     app: './src/app.js',
@@ -960,7 +963,11 @@ module.exports = {
     path: __dirname + '/dist'
   },
   plugins: [
-  + new FriendlyErrorsWebpackPlugin()
+  + new FriendlyErrorsWebpackPlugin({
+      compilationSuccessInfo: {
+          messages: [`你的应用程序在这里运行\n - 本地：http://localhost:${port}\n - 局域网：http://${WLAN[1].address}:${port}`],
+      },
+    })
   ],
   + stats: 'errors-only'
 };

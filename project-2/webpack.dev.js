@@ -6,6 +6,8 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const { WLAN } = require('os').networkInterfaces()
+const port = 8000
 const setMPA = () => {
     const entry = {};
     const htmlWebpackPlugins = [];
@@ -94,7 +96,11 @@ module.exports = {
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new CleanWebpackPlugin(),
-        new FriendlyErrorsWebpackPlugin()
+        new FriendlyErrorsWebpackPlugin({
+            compilationSuccessInfo: {
+                messages: [`你的应用程序在这里运行\n - 本地：http://localhost:${port}\n - 局域网：http://${WLAN[1].address}:${port}`],
+            },
+        })
     ].concat(htmlWebpackPlugins),
     devServer: {
         contentBase: './dist',
